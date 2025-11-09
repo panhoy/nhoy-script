@@ -28,8 +28,14 @@
                 <div>
                     <label class="block text-sm font-semibold text-gray-300 mb-2">Current Image</label>
                     <img id="editProfileCurrentImage" class="w-24 h-24 rounded-full object-cover mb-3 border-2 border-gray-700">
-                    <input type="text" id="editProfileImage" placeholder="Or paste new image URL"
-                           class="w-full px-4 py-3 border-2 border-gray-700 bg-secondary text-white rounded-xl transition">
+                    
+                    <input type="file" id="editProfileImageFile" accept="image/*" class="hidden">
+                    <button type="button" onclick="document.getElementById('editProfileImageFile').click()"
+                            class="w-full px-4 py-4 border-2 border-dashed border-gray-700 rounded-xl hover:border-accent transition text-gray-300 font-medium bg-secondary hover:bg-primary">
+                        <i class="fas fa-cloud-upload-alt mr-2 text-accent"></i>
+                        <span id="editProfileUploadLabel">Choose New Image File</span>
+                    </button>
+                    <input type="hidden" id="editProfileImageUrlValue">
                 </div>
 
                 <div>
@@ -415,10 +421,10 @@
             <div class="glass-card p-4 mb-6">
                 <div class="flex items-center mb-3">
                     <div class="w-12 h-12 rounded-full bg-gradient-to-br from-primary-dark to-accent flex items-center justify-center text-white font-bold text-lg mr-3">
-                        A
+                        <img src="https://i.pinimg.com/736x/67/b3/09/67b309599a28ddd511b993b67e6cb4b5.jpg" alt="">
                     </div>
                     <div class="flex-1 min-w-0">
-                        <p class="text-sm font-semibold text-white truncate">Admin User</p>
+                        <p class="text-sm font-semibold text-white truncate">Admin nhoy</p>
                         <p class="text-xs text-gray-400 truncate">admin@nhoyhub.com</p>
                     </div>
                 </div>
@@ -477,7 +483,6 @@
                         <i class="fas fa-arrow-up mr-1"></i> 8.2%
                     </span>
                 </div>
-                <h3 class="text-gray-400 text-xs sm:text-sm font-medium mb-1">Copy Events</h3>
                 <p class="text-3xl sm:text-4xl font-bold text-white">4,288</p>
             </div>
 
@@ -527,7 +532,7 @@
 
                     <div>
                         <label class="block text-sm font-semibold text-gray-300 mb-2">Script Key</label>
-                        <textarea id="scriptKey" required rows="4"
+                        <textarea id="scriptKey" required rows="1"
                                   class="w-full px-4 py-3 border-2 border-gray-700 bg-secondary text-white rounded-xl transition font-mono text-sm"
                                   placeholder="Paste your script key here..."></textarea>
                     </div>
@@ -560,7 +565,7 @@
                         </div>
                         <h2 class="text-xl sm:text-2xl font-bold text-white">Scripts Library</h2>
                     </div>
-                    <span class="badge bg-accent text-white"><span id="scriptCount">0</span> items</span>
+                    <span class="badge bg-accent text-white"><span id="scriptCount"> 0 </span> items</span>
                 </div>
 
                 <div class="space-y-3 max-h-96 overflow-y-auto custom-scrollbar pr-2" id="scriptsList">
@@ -704,8 +709,14 @@
                 <div>
                     <label class="block text-sm font-semibold text-gray-300 mb-2">Current Image</label>
                     <img id="editCurrentImage" class="w-24 h-24 rounded-xl object-cover mb-3 border-2 border-gray-700">
-                    <input type="text" id="editScriptImage" placeholder="Or paste new image URL"
-                           class="w-full px-4 py-3 border-2 border-gray-700 bg-secondary text-white rounded-xl transition">
+                    
+                    <input type="file" id="editScriptImageFile" accept="image/*" class="hidden">
+                    <button type="button" onclick="document.getElementById('editScriptImageFile').click()"
+                            class="w-full px-4 py-4 border-2 border-dashed border-gray-700 rounded-xl hover:border-accent transition text-gray-300 font-medium bg-secondary hover:bg-primary">
+                        <i class="fas fa-cloud-upload-alt mr-2 text-accent"></i>
+                        <span id="editUploadLabel">Choose New Image File</span>
+                    </button>
+                    <input type="hidden" id="editScriptImageURL"> 
                 </div>
 
                 <div>
@@ -1071,6 +1082,34 @@
                 throw error;
             }
         }
+        
+        // NEW: uploadEditProfileImage handler for the edit profile modal
+        async function uploadEditProfileImage(file) {
+            const label = document.getElementById('editProfileUploadLabel');
+            label.innerHTML = '<i class="fas fa-spinner animate-spin mr-2"></i>Uploading...';
+            
+            try {
+                const formData = new FormData();
+                formData.append('image', file);
+                
+                const response = await fetch(`${API_BASE}/api/upload-image`, {
+                    method: 'POST',
+                    credentials: 'include',
+                    body: formData
+                });
+                
+                if (!response.ok) throw new Error('Upload failed');
+                
+                const data = await response.json();
+                document.getElementById('editProfileImageUrlValue').value = data.imageUrl; // Store new URL
+                document.getElementById('editProfileCurrentImage').src = data.imageUrl; // Update preview
+                label.innerHTML = '<i class="fas fa-check-circle text-accent mr-2"></i>' + data.filename;
+                return data.imageUrl;
+            } catch (error) {
+                label.innerHTML = '<i class="fas fa-times-circle text-red-500 mr-2"></i>Upload Failed';
+                throw error;
+            }
+        }
 
         async function handleAddScript(e) {
             e.preventDefault();
@@ -1186,9 +1225,11 @@
             
             document.getElementById('editScriptId').value = script._id;
             document.getElementById('editScriptTitle').value = script.title;
-            document.getElementById('editScriptImage').value = script.image;
+            document.getElementById('editScriptImageURL').value = script.image; // Set current image URL
             document.getElementById('editCurrentImage').src = script.image;
             document.getElementById('editScriptKey').value = script.key;
+            document.getElementById('editUploadLabel').textContent = 'Choose New Image File'; // Reset file label
+            document.getElementById('editScriptImageFile').value = ''; // Reset file input
             document.getElementById('editMessage').classList.add('hidden');
             document.getElementById('editModal').classList.add('active');
         }
@@ -1200,12 +1241,15 @@
             
             document.getElementById('editProfileId').value = profile._id;
             document.getElementById('editProfileName').value = profile.name;
-            document.getElementById('editProfileImage').value = profile.image;
+            // Removed: document.getElementById('editProfileImage').value = profile.image; 
+            document.getElementById('editProfileImageUrlValue').value = profile.image; // Set current image URL
             document.getElementById('editProfileCurrentImage').src = profile.image;
             document.getElementById('editProfileUsername').value = profile.username;
             document.getElementById('editProfilePassword').value = profile.password;
             document.getElementById('editProfileColor').value = profile.accentColor || '#0ea5e9';
             document.getElementById('editProfileColorText').value = profile.accentColor || '#0ea5e9';
+            document.getElementById('editProfileUploadLabel').textContent = 'Choose New Image File'; // Reset file label
+            document.getElementById('editProfileImageFile').value = ''; // Reset file input
             document.getElementById('editProfileMessage').classList.add('hidden');
             document.getElementById('editProfileModal').classList.add('active');
         }
@@ -1216,7 +1260,7 @@
             
             const scriptId = document.getElementById('editScriptId').value;
             const title = document.getElementById('editScriptTitle').value;
-            const image = document.getElementById('editScriptImage').value;
+            const image = document.getElementById('editScriptImageURL').value; // Get URL from hidden field
             const key = document.getElementById('editScriptKey').value;
             
             try {
@@ -1244,7 +1288,8 @@
             
             const profileId = document.getElementById('editProfileId').value;
             const name = document.getElementById('editProfileName').value;
-            const image = document.getElementById('editProfileImage').value;
+            // UPDATED: Get URL from the hidden file input field
+            const image = document.getElementById('editProfileImageUrlValue').value; 
             const username = document.getElementById('editProfileUsername').value;
             const password = document.getElementById('editProfilePassword').value;
             const accentColor = document.getElementById('editProfileColor').value;
@@ -1361,6 +1406,47 @@
                 }
             });
 
+            document.getElementById('editScriptImageFile').addEventListener('change', async (e) => {
+                if (e.target.files.length > 0) {
+                    const file = e.target.files[0];
+                    const label = document.getElementById('editUploadLabel');
+
+                    if (file.size > 5 * 1024 * 1024) {
+                        showMessage('editMessage', 'Image must be less than 5MB', 'error');
+                        e.target.value = '';
+                        return;
+                    }
+                    
+                    if (!file.type.startsWith('image/')) {
+                        showMessage('editMessage', 'Please upload a valid image', 'error');
+                        e.target.value = '';
+                        return;
+                    }
+
+                    try {
+                        label.innerHTML = '<i class="fas fa-spinner animate-spin mr-2"></i>Uploading...';
+                        const formData = new FormData();
+                        formData.append('image', file);
+                        
+                        const response = await fetch(`${API_BASE}/api/upload-image`, {
+                            method: 'POST',
+                            credentials: 'include',
+                            body: formData
+                        });
+                        
+                        if (!response.ok) throw new Error('Upload failed');
+                        
+                        const data = await response.json();
+                        document.getElementById('editScriptImageURL').value = data.imageUrl; // SET NEW IMAGE URL
+                        document.getElementById('editCurrentImage').src = data.imageUrl; // UPDATE PREVIEW
+                        label.innerHTML = '<i class="fas fa-check-circle text-accent mr-2"></i>' + data.filename;
+                    } catch (error) {
+                        showMessage('editMessage', 'Failed to upload image', 'error');
+                        label.innerHTML = '<i class="fas fa-times-circle text-red-500 mr-2"></i>Upload Failed';
+                    }
+                }
+            });
+
             document.getElementById('profileImageFile').addEventListener('change', async (e) => {
                 if (e.target.files.length > 0) {
                     const file = e.target.files[0];
@@ -1382,6 +1468,31 @@
                         document.getElementById('profileImageUrl').value = imageUrl;
                     } catch (error) {
                         showMessage('profileMessage', 'Failed to upload image', 'error');
+                    }
+                }
+            });
+            
+            // NEW: Edit Profile Image Upload Handler
+            document.getElementById('editProfileImageFile').addEventListener('change', async (e) => {
+                if (e.target.files.length > 0) {
+                    const file = e.target.files[0];
+                    
+                    if (file.size > 5 * 1024 * 1024) {
+                        showMessage('editProfileMessage', 'Image must be less than 5MB', 'error');
+                        e.target.value = '';
+                        return;
+                    }
+                    
+                    if (!file.type.startsWith('image/')) {
+                        showMessage('editProfileMessage', 'Please upload a valid image', 'error');
+                        e.target.value = '';
+                        return;
+                    }
+                    
+                    try {
+                        await uploadEditProfileImage(file);
+                    } catch (error) {
+                        showMessage('editProfileMessage', 'Failed to upload image', 'error');
                     }
                 }
             });
