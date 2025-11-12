@@ -49,87 +49,58 @@
       }
       .logo img:hover { transform: scale(1.1); }
 
-      /* Controls */
+      /* NEW: Search UI Styles */
       .nav-controls {
           display: flex;
           align-items: center;
           gap: 15px;
       }
-      .search-btn, .menu-btn {
+      .search-container {
+          position: relative;
+          display: flex;
+          align-items: center;
+      }
+      #live-search-input {
+          width: 120px; /* Compact width */
+          padding: 8px 10px 8px 35px; /* Space for icon */
+          border: 1px solid rgba(102, 126, 234, 0.3);
+          border-radius: 20px;
+          font-size: 14px;
+          background: rgba(255, 255, 255, 0.1);
+          color: white;
+          transition: width 0.3s ease, background 0.3s ease, border-color 0.3s ease;
+      }
+      #live-search-input::placeholder {
+          color: rgba(255, 255, 255, 0.7);
+      }
+      #live-search-input:focus {
+          width: 250px; /* Expanded width on focus */
+          border-color: var(--accent-primary);
+          background: rgba(0, 0, 0, 0.5);
+          outline: none;
+      }
+      .search-icon {
+          position: absolute;
+          left: 10px;
+          color: rgba(255, 255, 255, 0.7);
+          font-size: 14px;
+          pointer-events: none; /* Allows click to pass through to input */
+          transition: color 0.3s;
+      }
+      #live-search-input:focus + .search-icon {
+          color: white;
+      }
+      
+      .menu-btn {
           background: none;
           border: none;
           color: white;
           font-size: 24px;
           cursor: pointer;
-          transition: transform 0.3s ease, color 0.3s;
+          transition: transform 0.3s ease;
       }
-      .search-btn:hover { color: var(--accent-primary); }
       .menu-btn:hover { transform: rotate(90deg); }
-
-      /* DEDICATED SEARCH OVERLAY (New Page) */
-      #dedicated-search-overlay {
-          position: fixed;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background: linear-gradient(135deg, rgba(0, 0, 0, 0.95) 0%, rgba(30, 30, 30, 0.95) 100%);
-          z-index: 1000;
-          backdrop-filter: blur(5px);
-          transform: translateY(-100%); /* Start off-screen */
-          transition: transform 0.4s ease-in-out;
-          overflow-y: auto;
-      }
-      #dedicated-search-overlay.visible {
-          transform: translateY(0);
-      }
-      .search-header {
-          display: flex;
-          align-items: center;
-          padding: 20px;
-          background: rgba(0, 0, 0, 0.9);
-          position: sticky;
-          top: 0;
-          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-      }
-      #overlay-search-input {
-          flex-grow: 1;
-          padding: 12px 15px;
-          border: 1px solid var(--accent-primary);
-          border-radius: 8px;
-          font-size: 16px;
-          background: #1a1a1a;
-          color: white;
-          outline: none;
-          margin-left: 15px;
-      }
-      #overlay-search-input::placeholder {
-          color: rgba(255, 255, 255, 0.6);
-      }
-      .close-search-btn {
-          background: none;
-          border: none;
-          color: white;
-          font-size: 28px;
-          cursor: pointer;
-          transition: color 0.3s;
-      }
-      .close-search-btn:hover { color: #ff5c5c; }
-      
-      .search-results-container {
-          max-width: 1400px;
-          margin: 20px auto;
-          padding: 0 20px;
-      }
-      .overlay-script-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-          gap: 25px;
-          margin-top: 30px;
-      }
-
-
-      /* Main Content (Existing Styles) */
+      /* Main Container */
       .main-content {
           max-width: 1400px;
           margin: 0 auto;
@@ -574,11 +545,18 @@
       @media (max-width: 768px) {
           .slide img { height: 250px; }
           .section-title h2 { font-size: 22px; }
-          .app-grid, .script-grid, .overlay-script-grid { grid-template-columns: 1fr; }
+          .app-grid, .script-grid { grid-template-columns: 1fr; }
           .hero-slider2 .script-grid { grid-template-columns: 1fr; }
           .slider-arrow { width: 35px; height: 35px; font-size: 14px; }
           .arrow-left { left: 10px; }
           .arrow-right { right: 10px; }
+          /* Search Responsive */
+          #live-search-input {
+              width: 100px;
+          }
+          #live-search-input:focus {
+              width: 150px;
+          }
       }
       @media (min-width: 768px) {
           .footer-content { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
@@ -586,7 +564,7 @@
       @media (min-width: 1200px) {
           .slide img { height: 500px; }
           .app-grid { grid-template-columns: repeat(2, 1fr); }
-          .script-grid, .overlay-script-grid { grid-template-columns: repeat(3, 1fr); }
+          .script-grid { grid-template-columns: repeat(3, 1fr); }
       }
     </style>
 </head>
@@ -598,9 +576,10 @@
             </a>
         </div>
         <div class="nav-controls">
-            <button class="search-btn" id="search-btn-action">
-                <i class="fa-solid fa-search"></i>
-            </button>
+            <div class="search-container">
+                <input type="text" id="live-search-input" placeholder="Search scripts..." aria-label="Search scripts">
+                <i class="fa-solid fa-search search-icon"></i>
+            </div>
             <button class="menu-btn" id="menu-btn-action">
                 <i class="fa-solid fa-bars"></i>
             </button>
@@ -663,19 +642,6 @@
 
             <div class="script-grid" id="scripts-container"></div>
             
-        </div>
-    </div>
-
-    <div id="dedicated-search-overlay">
-        <div class="search-header">
-            <button class="close-search-btn" id="close-search-btn-action">
-                <i class="fa-solid fa-arrow-left"></i>
-            </button>
-            <input type="text" id="overlay-search-input" placeholder="Search all scripts and exploits..." autofocus>
-        </div>
-        <div class="search-results-container">
-             <div class="overlay-script-grid" id="overlay-scripts-container">
-                </div>
         </div>
     </div>
 
@@ -887,30 +853,20 @@
             return card;
         }
 
-        function filterScriptCards(searchTerm, containerId) {
-            const container = document.getElementById(containerId);
+        function filterScriptCards(searchTerm) {
+            const container = document.getElementById('scripts-container');
             if (!container) return;
-            // Clear existing content if it's the overlay
-            if (containerId === 'overlay-scripts-container') {
-                container.innerHTML = '';
-            }
-            
+            const cards = container.querySelectorAll('.script-card');
             const term = searchTerm.toLowerCase().trim();
-            const filteredScripts = allScripts.filter(script => script.title.toLowerCase().includes(term));
 
-            if (containerId === 'scripts-container') {
-                // For the main page, we filter the existing cards
-                const cards = container.querySelectorAll('.script-card');
-                cards.forEach(card => {
-                    const title = card.getAttribute('data-title');
-                    card.style.display = title.includes(term) ? 'block' : 'none';
-                });
-            } else if (containerId === 'overlay-scripts-container') {
-                // For the overlay, we render new cards based on the filtered list
-                filteredScripts.forEach(script => {
-                    container.appendChild(createScriptCard(script));
-                });
-            }
+            cards.forEach(card => {
+                const title = card.getAttribute('data-title');
+                if (title.includes(term)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
         }
 
         function renderAllScriptSections() {
@@ -922,8 +878,8 @@
 
             scriptSliderWrapper.innerHTML = '';
             scriptDotsContainer.innerHTML = '';
+            
             scriptsContainer.innerHTML = '';
-
             // Render all scripts in the main popular section
             allScripts.forEach(script => {
                 scriptsContainer.appendChild(createScriptCard(script));
@@ -974,47 +930,6 @@
                 });
             }
             if (totalScriptPages > 0) updateScriptSlider();
-        }
-
-        // === SEARCH PAGE LOGIC ===
-        function openSearchPage() {
-            const overlay = document.getElementById('dedicated-search-overlay');
-            const input = document.getElementById('overlay-search-input');
-            const container = document.getElementById('overlay-scripts-container');
-
-            overlay.classList.add('visible');
-            input.focus();
-            
-            // Render all scripts initially in the overlay
-            container.innerHTML = '';
-            allScripts.forEach(script => {
-                container.appendChild(createScriptCard(script));
-            });
-        }
-
-        function closeSearchPage() {
-            const overlay = document.getElementById('dedicated-search-overlay');
-            const input = document.getElementById('overlay-search-input');
-
-            overlay.classList.remove('visible');
-            input.value = ''; // Clear search input
-        }
-
-        function initializeSearchPage() {
-            const searchBtn = document.getElementById('search-btn-action');
-            const closeBtn = document.getElementById('close-search-btn-action');
-            const searchInput = document.getElementById('overlay-search-input');
-            
-            // Open Search Page
-            searchBtn.addEventListener('click', openSearchPage);
-            
-            // Close Search Page
-            closeBtn.addEventListener('click', closeSearchPage);
-
-            // Live filtering on input change for the overlay
-            searchInput.addEventListener('input', (e) => {
-                filterScriptCards(e.target.value, 'overlay-scripts-container');
-            });
         }
 
         // === MODAL & LOGIN ===
@@ -1103,6 +1018,22 @@
                 }
             });
         }
+        
+        // === SEARCH LOGIC ===
+        function initializeSearch() {
+            const searchInput = document.getElementById('live-search-input');
+            
+            // Live filtering on input change
+            searchInput.addEventListener('input', (e) => {
+                filterScriptCards(e.target.value);
+            });
+            // Optional: Filter when pressing Enter
+            searchInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    filterScriptCards(e.target.value);
+                }
+            });
+        }
 
         // === INITIAL LOAD ===
         async function initialLoad() {
@@ -1110,7 +1041,7 @@
             renderAllScriptSections();
             initializeGenericSlider('#banner-slider', banners);
             initializeModalsAndLogin();
-            initializeSearchPage(); // Initialize the new search page functionality
+            initializeSearch(); // Initialize the new search functionality
 
             let resizeTimer;
             window.addEventListener('resize', () => {
