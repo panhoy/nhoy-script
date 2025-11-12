@@ -17,11 +17,13 @@
           --accent-pink: #ffabe7;
           --accent-blue: #a6d8ff;
           --accent-green: #a8e6cf;
+          --primary-dark: #000000;
+          --accent-primary: #667eea;
       }
       * { margin: 0; padding: 0; box-sizing: border-box; }
       body {
           font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-          background: linear-gradient(135deg, #000000 40%, hsla(186, 95%, 8%, 0.815) 60%);
+          background: linear-gradient(135deg, var(--primary-dark) 40%, hsla(186, 95%, 8%, 0.815) 60%);
           min-height: 100vh;
           color: #333;
       }
@@ -42,20 +44,92 @@
           width: 45px;
           height: 45px;
           border-radius: 50%;
-          border: 2px solid #667eea;
+          border: 2px solid var(--accent-primary);
           transition: transform 0.3s ease;
       }
       .logo img:hover { transform: scale(1.1); }
-      .menu-btn {
+
+      /* Controls */
+      .nav-controls {
+          display: flex;
+          align-items: center;
+          gap: 15px;
+      }
+      .search-btn, .menu-btn {
           background: none;
           border: none;
           color: white;
           font-size: 24px;
           cursor: pointer;
-          transition: transform 0.3s ease;
+          transition: transform 0.3s ease, color 0.3s;
       }
+      .search-btn:hover { color: var(--accent-primary); }
       .menu-btn:hover { transform: rotate(90deg); }
-      /* Main Container */
+
+      /* DEDICATED SEARCH OVERLAY (New Page) */
+      #dedicated-search-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(135deg, rgba(0, 0, 0, 0.95) 0%, rgba(30, 30, 30, 0.95) 100%);
+          z-index: 1000;
+          backdrop-filter: blur(5px);
+          transform: translateY(-100%); /* Start off-screen */
+          transition: transform 0.4s ease-in-out;
+          overflow-y: auto;
+      }
+      #dedicated-search-overlay.visible {
+          transform: translateY(0);
+      }
+      .search-header {
+          display: flex;
+          align-items: center;
+          padding: 20px;
+          background: rgba(0, 0, 0, 0.9);
+          position: sticky;
+          top: 0;
+          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+      }
+      #overlay-search-input {
+          flex-grow: 1;
+          padding: 12px 15px;
+          border: 1px solid var(--accent-primary);
+          border-radius: 8px;
+          font-size: 16px;
+          background: #1a1a1a;
+          color: white;
+          outline: none;
+          margin-left: 15px;
+      }
+      #overlay-search-input::placeholder {
+          color: rgba(255, 255, 255, 0.6);
+      }
+      .close-search-btn {
+          background: none;
+          border: none;
+          color: white;
+          font-size: 28px;
+          cursor: pointer;
+          transition: color 0.3s;
+      }
+      .close-search-btn:hover { color: #ff5c5c; }
+      
+      .search-results-container {
+          max-width: 1400px;
+          margin: 20px auto;
+          padding: 0 20px;
+      }
+      .overlay-script-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+          gap: 25px;
+          margin-top: 30px;
+      }
+
+
+      /* Main Content (Existing Styles) */
       .main-content {
           max-width: 1400px;
           margin: 0 auto;
@@ -109,7 +183,7 @@
       .arrow-left { left: 15px; }
       .arrow-right { right: 15px; }
       /* Custom styles for script slider arrows */
-      .hero-slider2 .slider-arrow { background-color: #000000; }
+      .hero-slider2 .slider-arrow { background-color: var(--primary-dark); }
       .hero-slider2 .slider-arrow i { color: #15ff00; }
       .dots-container {
           text-align: center;
@@ -192,7 +266,7 @@
           color: #666;
       }
       .download-btn {
-          background: linear-gradient(135deg, #000000 0%, #000000 100%);
+          background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-dark) 100%);
           color: white;
           border: none;
           width: 45px;
@@ -333,7 +407,7 @@
       .unlock-btn {
           width: 100%;
           padding: 15px;
-          background: linear-gradient(135deg, #000000 0%, #202524 100%);
+          background: linear-gradient(135deg, var(--primary-dark) 0%, #202524 100%);
           color: white;
           border: none;
           border-radius: 12px;
@@ -398,7 +472,7 @@
           width: 100%;
           padding: 15px;
           border: none;
-          background: linear-gradient(135deg, #000000 0%, #353535 100%);
+          background: linear-gradient(135deg, var(--primary-dark) 0%, #353535 100%);
           color: white;
           border-radius: 10px;
           font-size: 16px;
@@ -418,7 +492,7 @@
       }
       /* Footer */
       #footer-contact {
-          background-color: #000000;
+          background-color: var(--primary-dark);
           color: #f0f0f0;
           padding: 50px 20px;
           margin-top: 30px;
@@ -446,7 +520,7 @@
           left: 0;
           width: 35px;
           height: 3px;
-          background-color: #667eea;
+          background-color: var(--accent-primary);
           border-radius: 2px;
       }
       .footer-logo-container {
@@ -462,7 +536,7 @@
           border-radius: 50%;
           object-fit: cover;
           margin-right: 12px;
-          border: 2px solid #667eea;
+          border: 2px solid var(--accent-primary);
       }
       .footer-logo-text { font-size: 22px; font-weight: bold; }
       .about-section p { line-height: 1.7; color: #ccc; margin-bottom: 20px; }
@@ -480,7 +554,7 @@
           transition: background-color 0.3s ease, transform 0.3s ease;
       }
       .social-links a:hover {
-          background-color: #667eea;
+          background-color: var(--accent-primary);
           transform: translateY(-3px);
       }
       .footer-section ul { list-style: none; padding: 0; margin: 0; }
@@ -491,7 +565,7 @@
           transition: color 0.3s ease, padding-left 0.3s ease;
       }
       .footer-section ul a:hover {
-          color: #667eea;
+          color: var(--accent-primary);
           padding-left: 5px;
       }
       .contact-info li { display: flex; align-items: center; }
@@ -500,7 +574,7 @@
       @media (max-width: 768px) {
           .slide img { height: 250px; }
           .section-title h2 { font-size: 22px; }
-          .app-grid, .script-grid { grid-template-columns: 1fr; }
+          .app-grid, .script-grid, .overlay-script-grid { grid-template-columns: 1fr; }
           .hero-slider2 .script-grid { grid-template-columns: 1fr; }
           .slider-arrow { width: 35px; height: 35px; font-size: 14px; }
           .arrow-left { left: 10px; }
@@ -512,7 +586,7 @@
       @media (min-width: 1200px) {
           .slide img { height: 500px; }
           .app-grid { grid-template-columns: repeat(2, 1fr); }
-          .script-grid { grid-template-columns: repeat(3, 1fr); }
+          .script-grid, .overlay-script-grid { grid-template-columns: repeat(3, 1fr); }
       }
     </style>
 </head>
@@ -523,9 +597,14 @@
                 <img src="https://i.pinimg.com/736x/17/94/ea/1794ea7f66d326bd3224aac4a33b67e7.jpg" alt="logo">
             </a>
         </div>
-        <button class="menu-btn" id="menu-btn-action">
-            <i class="fa-solid fa-bars"></i>
-        </button>
+        <div class="nav-controls">
+            <button class="search-btn" id="search-btn-action">
+                <i class="fa-solid fa-search"></i>
+            </button>
+            <button class="menu-btn" id="menu-btn-action">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
     </div>
 
     <div class="main-content">
@@ -584,6 +663,19 @@
 
             <div class="script-grid" id="scripts-container"></div>
             
+        </div>
+    </div>
+
+    <div id="dedicated-search-overlay">
+        <div class="search-header">
+            <button class="close-search-btn" id="close-search-btn-action">
+                <i class="fa-solid fa-arrow-left"></i>
+            </button>
+            <input type="text" id="overlay-search-input" placeholder="Search all scripts and exploits..." autofocus>
+        </div>
+        <div class="search-results-container">
+             <div class="overlay-script-grid" id="overlay-scripts-container">
+                </div>
         </div>
     </div>
 
@@ -675,9 +767,20 @@
         // === DATA FETCHING ===
         async function loadScriptsFromAPI() {
             try {
+                // Mock data for demonstration if API fails or for testing
+                // const mockScripts = [
+                //     { title: "Blox Fruits AutoFarm Script", key: "loadstring(game:GetService(\"HttpService\"):DecodeBase64(\"LyoqIE1vY2sgU2NyaXB0IEtleSAxICoqLw==\"))()", image: "https://via.placeholder.com/300x200/a6d8ff/ffffff?text=Blox+Fruits" },
+                //     { title: "Adopt Me! ESP and Fly Hack", key: "loadstring(game:GetService(\"HttpService\"):DecodeBase64(\"LyoqIE1vY2sgU2NyaXB0IEtleSAyICoqLw==\"))()", image: "https://via.placeholder.com/300x200/a8e6cf/ffffff?text=Adopt+Me" },
+                //     { title: "Murder Mystery 2 God Mode", key: "loadstring(game:GetService(\"HttpService\"):DecodeBase64(\"LyoqIE1vY2sgU2NyaXB0IEtleSAzICoqLw==\"))()", image: "https://via.placeholder.com/300x200/ffabe7/ffffff?text=MM2" },
+                //     { title: "Tower of Hell Infinite Jump", key: "loadstring(game:GetService(\"HttpService\"):DecodeBase64(\"LyoqIE1vY2sgU2NyaXB0IEtleSA0ICoqLw==\"))()", image: "https://via.placeholder.com/300x200/5c5470/ffffff?text=Tower+Hell" },
+                //     { title: "Da Hood Cash & Anti-Kick", key: "loadstring(game:GetService(\"HttpService\"):DecodeBase64(\"LyoqIE1vY2sgU2NyaXB0IEtleSA1ICoqLw==\"))()", image: "https://via.placeholder.com/300x200/667eea/ffffff?text=Da+Hood" },
+                // ];
+                
                 const response = await fetch(`${API_BASE}/api/scripts`);
                 if (!response.ok) throw new Error("Failed to fetch scripts from API");
                 allScripts = await response.json();
+                
+                // allScripts = mockScripts; // Uncomment to use mock data
             } catch (error) {
                 console.error("Error loading scripts:", error);
                 allScripts = []; 
@@ -745,17 +848,20 @@
                 currentSlide = (currentSlide + 1) % bannerArray.length;
                 updateSlider();
             });
-            setInterval(() => {
-                currentSlide = (currentSlide + 1) % bannerArray.length;
-                updateSlider();
-            }, 5000);
+            if (bannerArray.length > 1) { // Only start interval if there's more than one slide
+                setInterval(() => {
+                    currentSlide = (currentSlide + 1) % bannerArray.length;
+                    updateSlider();
+                }, 5000);
+            }
             updateSlider();
         }
 
-        // === SCRIPT RENDERING ===
+        // === SCRIPT RENDERING & SEARCH FILTERING ===
         function createScriptCard(script) {
             const card = document.createElement('div');
             card.className = 'script-card';
+            card.setAttribute('data-title', script.title.toLowerCase()); // For search filtering
             card.innerHTML = `
                 <img src="${script.image}" onerror="this.onerror=null; this.src='https://via.placeholder.com/300x200/5c5470/ffffff?text=Image+Not+Found'" alt="${script.title}" class="script-image" loading="lazy">
                 <div class="script-content">
@@ -781,6 +887,32 @@
             return card;
         }
 
+        function filterScriptCards(searchTerm, containerId) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            // Clear existing content if it's the overlay
+            if (containerId === 'overlay-scripts-container') {
+                container.innerHTML = '';
+            }
+            
+            const term = searchTerm.toLowerCase().trim();
+            const filteredScripts = allScripts.filter(script => script.title.toLowerCase().includes(term));
+
+            if (containerId === 'scripts-container') {
+                // For the main page, we filter the existing cards
+                const cards = container.querySelectorAll('.script-card');
+                cards.forEach(card => {
+                    const title = card.getAttribute('data-title');
+                    card.style.display = title.includes(term) ? 'block' : 'none';
+                });
+            } else if (containerId === 'overlay-scripts-container') {
+                // For the overlay, we render new cards based on the filtered list
+                filteredScripts.forEach(script => {
+                    container.appendChild(createScriptCard(script));
+                });
+            }
+        }
+
         function renderAllScriptSections() {
             const scriptSliderWrapper = document.getElementById('script-slider-wrapper');
             const scriptDotsContainer = document.getElementById('script-dots');
@@ -790,14 +922,17 @@
 
             scriptSliderWrapper.innerHTML = '';
             scriptDotsContainer.innerHTML = '';
-            
             scriptsContainer.innerHTML = '';
+
+            // Render all scripts in the main popular section
             allScripts.forEach(script => {
                 scriptsContainer.appendChild(createScriptCard(script));
             });
-
+            
+            // Re-render slider section (using the first 6 scripts as featured)
+            const featuredScripts = allScripts.slice(0, 6); 
             const scriptsPerPage = window.innerWidth <= 768 ? 1 : (window.innerWidth <= 1200 ? 2 : 3);
-            totalScriptPages = Math.ceil(allScripts.length / scriptsPerPage);
+            totalScriptPages = Math.ceil(featuredScripts.length / scriptsPerPage);
 
             for (let i = 0; i < totalScriptPages; i++) {
                 const page = document.createElement('div');
@@ -805,7 +940,7 @@
                 const grid = document.createElement('div');
                 grid.className = 'script-grid';
                 grid.style.setProperty('--scripts-per-page', scriptsPerPage);
-                const pageScripts = allScripts.slice(i * scriptsPerPage, (i * scriptsPerPage) + scriptsPerPage);
+                const pageScripts = featuredScripts.slice(i * scriptsPerPage, (i * scriptsPerPage) + scriptsPerPage);
                 pageScripts.forEach(script => grid.appendChild(createScriptCard(script)));
                 page.appendChild(grid);
                 scriptSliderWrapper.appendChild(page);
@@ -826,15 +961,60 @@
                 currentScriptSlide = idx;
                 updateScriptSlider();
             }
-            document.getElementById('script-left').addEventListener('click', () => {
-                currentScriptSlide = (currentScriptSlide - 1 + totalScriptPages) % totalScriptPages;
-                updateScriptSlider();
-            });
-            document.getElementById('script-right').addEventListener('click', () => {
-                currentScriptSlide = (currentScriptSlide + 1) % totalScriptPages;
-                updateScriptSlider();
-            });
+            if (document.getElementById('script-left')) {
+                document.getElementById('script-left').addEventListener('click', () => {
+                    currentScriptSlide = (currentScriptSlide - 1 + totalScriptPages) % totalScriptPages;
+                    updateScriptSlider();
+                });
+            }
+            if (document.getElementById('script-right')) {
+                document.getElementById('script-right').addEventListener('click', () => {
+                    currentScriptSlide = (currentScriptSlide + 1) % totalScriptPages;
+                    updateScriptSlider();
+                });
+            }
             if (totalScriptPages > 0) updateScriptSlider();
+        }
+
+        // === SEARCH PAGE LOGIC ===
+        function openSearchPage() {
+            const overlay = document.getElementById('dedicated-search-overlay');
+            const input = document.getElementById('overlay-search-input');
+            const container = document.getElementById('overlay-scripts-container');
+
+            overlay.classList.add('visible');
+            input.focus();
+            
+            // Render all scripts initially in the overlay
+            container.innerHTML = '';
+            allScripts.forEach(script => {
+                container.appendChild(createScriptCard(script));
+            });
+        }
+
+        function closeSearchPage() {
+            const overlay = document.getElementById('dedicated-search-overlay');
+            const input = document.getElementById('overlay-search-input');
+
+            overlay.classList.remove('visible');
+            input.value = ''; // Clear search input
+        }
+
+        function initializeSearchPage() {
+            const searchBtn = document.getElementById('search-btn-action');
+            const closeBtn = document.getElementById('close-search-btn-action');
+            const searchInput = document.getElementById('overlay-search-input');
+            
+            // Open Search Page
+            searchBtn.addEventListener('click', openSearchPage);
+            
+            // Close Search Page
+            closeBtn.addEventListener('click', closeSearchPage);
+
+            // Live filtering on input change for the overlay
+            searchInput.addEventListener('input', (e) => {
+                filterScriptCards(e.target.value, 'overlay-scripts-container');
+            });
         }
 
         // === MODAL & LOGIN ===
@@ -930,6 +1110,7 @@
             renderAllScriptSections();
             initializeGenericSlider('#banner-slider', banners);
             initializeModalsAndLogin();
+            initializeSearchPage(); // Initialize the new search page functionality
 
             let resizeTimer;
             window.addEventListener('resize', () => {
