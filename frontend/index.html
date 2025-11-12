@@ -17,13 +17,11 @@
           --accent-pink: #ffabe7;
           --accent-blue: #a6d8ff;
           --accent-green: #a8e6cf;
-          --primary-dark: #000000;
-          --accent-primary: #667eea;
       }
       * { margin: 0; padding: 0; box-sizing: border-box; }
       body {
           font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-          background: linear-gradient(135deg, var(--primary-dark) 40%, hsla(186, 95%, 8%, 0.815) 60%);
+          background: linear-gradient(135deg, #000000 40%, hsla(186, 95%, 8%, 0.815) 60%);
           min-height: 100vh;
           color: #333;
       }
@@ -44,53 +42,10 @@
           width: 45px;
           height: 45px;
           border-radius: 50%;
-          border: 2px solid var(--accent-primary);
+          border: 2px solid #667eea;
           transition: transform 0.3s ease;
       }
       .logo img:hover { transform: scale(1.1); }
-
-      /* NEW: Search UI Styles */
-      .nav-controls {
-          display: flex;
-          align-items: center;
-          gap: 15px;
-      }
-      .search-container {
-          position: relative;
-          display: flex;
-          align-items: center;
-      }
-      #live-search-input {
-          width: 120px; /* Compact width */
-          padding: 8px 10px 8px 35px; /* Space for icon */
-          border: 1px solid rgba(102, 126, 234, 0.3);
-          border-radius: 20px;
-          font-size: 14px;
-          background: rgba(255, 255, 255, 0.1);
-          color: white;
-          transition: width 0.3s ease, background 0.3s ease, border-color 0.3s ease;
-      }
-      #live-search-input::placeholder {
-          color: rgba(255, 255, 255, 0.7);
-      }
-      #live-search-input:focus {
-          width: 250px; /* Expanded width on focus */
-          border-color: var(--accent-primary);
-          background: rgba(0, 0, 0, 0.5);
-          outline: none;
-      }
-      .search-icon {
-          position: absolute;
-          left: 10px;
-          color: rgba(255, 255, 255, 0.7);
-          font-size: 14px;
-          pointer-events: none; /* Allows click to pass through to input */
-          transition: color 0.3s;
-      }
-      #live-search-input:focus + .search-icon {
-          color: white;
-      }
-      
       .menu-btn {
           background: none;
           border: none;
@@ -154,7 +109,7 @@
       .arrow-left { left: 15px; }
       .arrow-right { right: 15px; }
       /* Custom styles for script slider arrows */
-      .hero-slider2 .slider-arrow { background-color: var(--primary-dark); }
+      .hero-slider2 .slider-arrow { background-color: #000000; }
       .hero-slider2 .slider-arrow i { color: #15ff00; }
       .dots-container {
           text-align: center;
@@ -237,7 +192,7 @@
           color: #666;
       }
       .download-btn {
-          background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-dark) 100%);
+          background: linear-gradient(135deg, #000000 0%, #000000 100%);
           color: white;
           border: none;
           width: 45px;
@@ -378,7 +333,7 @@
       .unlock-btn {
           width: 100%;
           padding: 15px;
-          background: linear-gradient(135deg, var(--primary-dark) 0%, #202524 100%);
+          background: linear-gradient(135deg, #000000 0%, #202524 100%);
           color: white;
           border: none;
           border-radius: 12px;
@@ -443,7 +398,7 @@
           width: 100%;
           padding: 15px;
           border: none;
-          background: linear-gradient(135deg, var(--primary-dark) 0%, #353535 100%);
+          background: linear-gradient(135deg, #000000 0%, #353535 100%);
           color: white;
           border-radius: 10px;
           font-size: 16px;
@@ -463,7 +418,7 @@
       }
       /* Footer */
       #footer-contact {
-          background-color: var(--primary-dark);
+          background-color: #000000;
           color: #f0f0f0;
           padding: 50px 20px;
           margin-top: 30px;
@@ -491,7 +446,7 @@
           left: 0;
           width: 35px;
           height: 3px;
-          background-color: var(--accent-primary);
+          background-color: #667eea;
           border-radius: 2px;
       }
       .footer-logo-container {
@@ -507,7 +462,7 @@
           border-radius: 50%;
           object-fit: cover;
           margin-right: 12px;
-          border: 2px solid var(--accent-primary);
+          border: 2px solid #667eea;
       }
       .footer-logo-text { font-size: 22px; font-weight: bold; }
       .about-section p { line-height: 1.7; color: #ccc; margin-bottom: 20px; }
@@ -525,7 +480,7 @@
           transition: background-color 0.3s ease, transform 0.3s ease;
       }
       .social-links a:hover {
-          background-color: var(--accent-primary);
+          background-color: #667eea;
           transform: translateY(-3px);
       }
       .footer-section ul { list-style: none; padding: 0; margin: 0; }
@@ -536,7 +491,7 @@
           transition: color 0.3s ease, padding-left 0.3s ease;
       }
       .footer-section ul a:hover {
-          color: var(--accent-primary);
+          color: #667eea;
           padding-left: 5px;
       }
       .contact-info li { display: flex; align-items: center; }
@@ -550,13 +505,6 @@
           .slider-arrow { width: 35px; height: 35px; font-size: 14px; }
           .arrow-left { left: 10px; }
           .arrow-right { right: 10px; }
-          /* Search Responsive */
-          #live-search-input {
-              width: 100px;
-          }
-          #live-search-input:focus {
-              width: 150px;
-          }
       }
       @media (min-width: 768px) {
           .footer-content { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
@@ -575,15 +523,9 @@
                 <img src="https://i.pinimg.com/736x/17/94/ea/1794ea7f66d326bd3224aac4a33b67e7.jpg" alt="logo">
             </a>
         </div>
-        <div class="nav-controls">
-            <div class="search-container">
-                <input type="text" id="live-search-input" placeholder="Search scripts..." aria-label="Search scripts">
-                <i class="fa-solid fa-search search-icon"></i>
-            </div>
-            <button class="menu-btn" id="menu-btn-action">
-                <i class="fa-solid fa-bars"></i>
-            </button>
-        </div>
+        <button class="menu-btn" id="menu-btn-action">
+            <i class="fa-solid fa-bars"></i>
+        </button>
     </div>
 
     <div class="main-content">
@@ -733,20 +675,9 @@
         // === DATA FETCHING ===
         async function loadScriptsFromAPI() {
             try {
-                // Mock data for demonstration if API fails or for testing
-                // const mockScripts = [
-                //     { title: "Blox Fruits AutoFarm Script", key: "loadstring(game:GetService(\"HttpService\"):DecodeBase64(\"LyoqIE1vY2sgU2NyaXB0IEtleSAxICoqLw==\"))()", image: "https://via.placeholder.com/300x200/a6d8ff/ffffff?text=Blox+Fruits" },
-                //     { title: "Adopt Me! ESP and Fly Hack", key: "loadstring(game:GetService(\"HttpService\"):DecodeBase64(\"LyoqIE1vY2sgU2NyaXB0IEtleSAyICoqLw==\"))()", image: "https://via.placeholder.com/300x200/a8e6cf/ffffff?text=Adopt+Me" },
-                //     { title: "Murder Mystery 2 God Mode", key: "loadstring(game:GetService(\"HttpService\"):DecodeBase64(\"LyoqIE1vY2sgU2NyaXB0IEtleSAzICoqLw==\"))()", image: "https://via.placeholder.com/300x200/ffabe7/ffffff?text=MM2" },
-                //     { title: "Tower of Hell Infinite Jump", key: "loadstring(game:GetService(\"HttpService\"):DecodeBase64(\"LyoqIE1vY2sgU2NyaXB0IEtleSA0ICoqLw==\"))()", image: "https://via.placeholder.com/300x200/5c5470/ffffff?text=Tower+Hell" },
-                //     { title: "Da Hood Cash & Anti-Kick", key: "loadstring(game:GetService(\"HttpService\"):DecodeBase64(\"LyoqIE1vY2sgU2NyaXB0IEtleSA1ICoqLw==\"))()", image: "https://via.placeholder.com/300x200/667eea/ffffff?text=Da+Hood" },
-                // ];
-                
                 const response = await fetch(`${API_BASE}/api/scripts`);
                 if (!response.ok) throw new Error("Failed to fetch scripts from API");
                 allScripts = await response.json();
-                
-                // allScripts = mockScripts; // Uncomment to use mock data
             } catch (error) {
                 console.error("Error loading scripts:", error);
                 allScripts = []; 
@@ -814,20 +745,17 @@
                 currentSlide = (currentSlide + 1) % bannerArray.length;
                 updateSlider();
             });
-            if (bannerArray.length > 1) { // Only start interval if there's more than one slide
-                setInterval(() => {
-                    currentSlide = (currentSlide + 1) % bannerArray.length;
-                    updateSlider();
-                }, 5000);
-            }
+            setInterval(() => {
+                currentSlide = (currentSlide + 1) % bannerArray.length;
+                updateSlider();
+            }, 5000);
             updateSlider();
         }
 
-        // === SCRIPT RENDERING & SEARCH FILTERING ===
+        // === SCRIPT RENDERING ===
         function createScriptCard(script) {
             const card = document.createElement('div');
             card.className = 'script-card';
-            card.setAttribute('data-title', script.title.toLowerCase()); // For search filtering
             card.innerHTML = `
                 <img src="${script.image}" onerror="this.onerror=null; this.src='https://via.placeholder.com/300x200/5c5470/ffffff?text=Image+Not+Found'" alt="${script.title}" class="script-image" loading="lazy">
                 <div class="script-content">
@@ -853,22 +781,6 @@
             return card;
         }
 
-        function filterScriptCards(searchTerm) {
-            const container = document.getElementById('scripts-container');
-            if (!container) return;
-            const cards = container.querySelectorAll('.script-card');
-            const term = searchTerm.toLowerCase().trim();
-
-            cards.forEach(card => {
-                const title = card.getAttribute('data-title');
-                if (title.includes(term)) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        }
-
         function renderAllScriptSections() {
             const scriptSliderWrapper = document.getElementById('script-slider-wrapper');
             const scriptDotsContainer = document.getElementById('script-dots');
@@ -880,15 +792,12 @@
             scriptDotsContainer.innerHTML = '';
             
             scriptsContainer.innerHTML = '';
-            // Render all scripts in the main popular section
             allScripts.forEach(script => {
                 scriptsContainer.appendChild(createScriptCard(script));
             });
-            
-            // Re-render slider section (using the first 6 scripts as featured)
-            const featuredScripts = allScripts.slice(0, 6); 
+
             const scriptsPerPage = window.innerWidth <= 768 ? 1 : (window.innerWidth <= 1200 ? 2 : 3);
-            totalScriptPages = Math.ceil(featuredScripts.length / scriptsPerPage);
+            totalScriptPages = Math.ceil(allScripts.length / scriptsPerPage);
 
             for (let i = 0; i < totalScriptPages; i++) {
                 const page = document.createElement('div');
@@ -896,7 +805,7 @@
                 const grid = document.createElement('div');
                 grid.className = 'script-grid';
                 grid.style.setProperty('--scripts-per-page', scriptsPerPage);
-                const pageScripts = featuredScripts.slice(i * scriptsPerPage, (i * scriptsPerPage) + scriptsPerPage);
+                const pageScripts = allScripts.slice(i * scriptsPerPage, (i * scriptsPerPage) + scriptsPerPage);
                 pageScripts.forEach(script => grid.appendChild(createScriptCard(script)));
                 page.appendChild(grid);
                 scriptSliderWrapper.appendChild(page);
@@ -917,18 +826,14 @@
                 currentScriptSlide = idx;
                 updateScriptSlider();
             }
-            if (document.getElementById('script-left')) {
-                document.getElementById('script-left').addEventListener('click', () => {
-                    currentScriptSlide = (currentScriptSlide - 1 + totalScriptPages) % totalScriptPages;
-                    updateScriptSlider();
-                });
-            }
-            if (document.getElementById('script-right')) {
-                document.getElementById('script-right').addEventListener('click', () => {
-                    currentScriptSlide = (currentScriptSlide + 1) % totalScriptPages;
-                    updateScriptSlider();
-                });
-            }
+            document.getElementById('script-left').addEventListener('click', () => {
+                currentScriptSlide = (currentScriptSlide - 1 + totalScriptPages) % totalScriptPages;
+                updateScriptSlider();
+            });
+            document.getElementById('script-right').addEventListener('click', () => {
+                currentScriptSlide = (currentScriptSlide + 1) % totalScriptPages;
+                updateScriptSlider();
+            });
             if (totalScriptPages > 0) updateScriptSlider();
         }
 
@@ -1018,22 +923,6 @@
                 }
             });
         }
-        
-        // === SEARCH LOGIC ===
-        function initializeSearch() {
-            const searchInput = document.getElementById('live-search-input');
-            
-            // Live filtering on input change
-            searchInput.addEventListener('input', (e) => {
-                filterScriptCards(e.target.value);
-            });
-            // Optional: Filter when pressing Enter
-            searchInput.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter') {
-                    filterScriptCards(e.target.value);
-                }
-            });
-        }
 
         // === INITIAL LOAD ===
         async function initialLoad() {
@@ -1041,7 +930,6 @@
             renderAllScriptSections();
             initializeGenericSlider('#banner-slider', banners);
             initializeModalsAndLogin();
-            initializeSearch(); // Initialize the new search functionality
 
             let resizeTimer;
             window.addEventListener('resize', () => {

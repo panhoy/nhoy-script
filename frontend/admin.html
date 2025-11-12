@@ -878,7 +878,6 @@
                 return;
             }
 
-            // --- START MODIFIED TABLE RENDERING ---
             tbody.innerHTML = accounts.map(account => `
                 <tr class="hover:bg-gray-700 transition">
                     <td class="py-4 px-4">
@@ -891,22 +890,12 @@
                     <td class="py-4 px-4 font-mono text-xs sm:text-sm text-gray-300">${escapeHtml(account.username)}</td>
                     <td class="py-4 px-4 font-mono text-xs sm:text-sm text-gray-300">${escapeHtml(account.password)}</td>
                     <td class="py-4 px-4">
-                        <div class="flex items-center space-x-2">
-                            <button onclick="openEditProfileModal('${account._id}')" 
-                                    class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-blue-900 text-accent hover:bg-blue-800 flex items-center justify-center transition" 
-                                    title="Edit Profile">
-                                <i class="fas fa-edit text-sm"></i>
-                            </button>
-                            <button onclick="deleteProfile('${account._id}')" 
-                                    class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-red-900 text-red-400 hover:bg-red-800 flex items-center justify-center transition" 
-                                    title="Delete Profile">
-                                <i class="fas fa-trash-alt text-sm"></i>
-                            </button>
-                        </div>
+                        <button class="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-gray-800 text-gray-500 flex items-center justify-center cursor-not-allowed" disabled>
+                            <i class="fas fa-lock text-xs sm:text-sm"></i>
+                        </button>
                     </td>
                 </tr>
             `).join('');
-            // --- END MODIFIED TABLE RENDERING ---
 
             // Render Profile Library Cards
             profilesList.innerHTML = accounts.map(account => {
